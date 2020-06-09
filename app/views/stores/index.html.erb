@@ -1,15 +1,30 @@
-<div>
+<div class="container text-center py-3">
+  <%
+    # TODO: (Bonus Task) Implement complete store functionality
+    # - Display all online stores here
+    # - When clicked, go to stores#show page
+    # - Add a link to create store
+    # - Display store rating (based on the ratings from purchase reviews)
+  %>
+  <h1 class="text-center pb-3">Stores</h1>
 
-<h1>Stores</h1>
+  <%= link_to "Add Store", new_store_path, class: "btn btn-success" %>
+  <%= link_to "Back to Home", root_path, class: "btn btn-danger" %>
 
-TODO
-
-<%
-  # TODO: (Bonus Task) Implement complete store functionality
-  # - Display all online stores here
-  # - When clicked, go to stores#show page
-  # - Add a link to create store
-  # - Display store rating (based on the ratings from purchase reviews)
-%>
+  <div class="row">
+    <% @stores.each do |store| %>
+      <div class="col-md-4">
+        <div class="card mt-4" style="width: 20rem;">
+          <img src="<%= asset_path('img-store.png') %>" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title"><%= store.name.titleize %></h5>
+            <p>Average Rating: <%= store.average_rating %></p>
+            <%= link_to "See Products", store_products_path(store), class: "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
 
 </div>

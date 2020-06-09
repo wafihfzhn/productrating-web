@@ -1,5 +1,5 @@
 <div class="container text-center py-3">
-  <h1 class="pb-3">Purchase of <%= @product.name %></h1>
+  <h1 class="pb-3">Edit Purchase <%= @purchase.id %></h1>
 
   <%= form_with model: [@store, @product, @purchase], local: true do |f| %>
     <div class="form-group col-md-6 offset-md-3">

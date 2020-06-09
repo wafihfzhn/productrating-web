@@ -1,36 +1,28 @@
-<div>
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-3">
+      <img src="<%= asset_path('img-product.png') %>" class="card-img-top" alt="...">
+    </div>
+    <div class="col-md-6">
+      <h4>Product Name: <%= @product.name.titleize %></h4>
+      <hr>
+      <h5 class="pb-2">Price: <%= format_price @product.price %></h5>
+      <%# TODO: Format the date time to make it more readable %>
+      <h5 class="pb-2">Quantity: <%= @product.quantity %></h5>
+      <%# TODO: Calculate average rating based on the reviews from all of the product's purchases %>
+      <h5 class="pb-2">Posted on: <%= @product.created_at.strftime("%d %b %Y") %></h5>
 
-<h1>Product #<%= @product.id %></h1>
+      <%= link_to "Buy Product", new_store_product_purchase_path(@store, @product), class: "btn btn-primary"  %>
+      <%= link_to "Back", store_products_path(@store), class: "btn btn-danger" %>
+    </div>
+    <div class="col-md-3 text-center">
+      <%# TODO: Calculate average rating based on the reviews from all of the product's purchases %>
+      Average Rating: <%= @product.average_rating %>
+    </div>
+  </div>
 
-Name: <%= @product.name %>
-<br />
-Price: <%= format_price @product.price %>
-<br />
-Quantity: <%= @product.quantity %>
-<br />
-<%# TODO: Format the date time to make it more readable %>
-Posted on: <%= @product.created_at %>
-<br />
-<%# TODO: Calculate average rating based on the reviews from all of the product's purchases %>
-Average rating: TODO
-
-<br />
-<br />
-<%= link_to 'Buy', new_product_purchase_url(@product) %>
-
-</div>
-
-<br />
-<br />
-
-<div>
-
-<h2>Purchases</h2>
-
-<ul>
-<% @product.purchases.each do |purchase| %>
-  <li><%= link_to "Purchase ##{purchase.id}", product_purchase_url(@product, purchase) %></li>
-<% end %>
-</ul>
-
+  <h2 class="pt-3">Purchases</h2>
+    <% @product.purchases.each do |purchase| %>
+      <li><%= link_to "Purchase of ##{purchase.id}", store_product_purchase_path(@store, @product, purchase) %></li>
+    <% end %>
 </div>

@@ -1,24 +1,23 @@
-<div>
+<div class="container text-center py-3">
+  <h1 class="pb-3">Add Product</h1>
 
-<%= form_with model: @product, local: true do |f| %>
-  <div style="margin-top: 10px;">
-    <div><%= f.label :name %><div>
-    <%= f.text_field :name %>
-  </div>
-  
-  <div style="margin-top: 10px;">
-    <div><%= f.label :price %><div>
-    <%= f.text_field :price %>
-  </div>
-  
-  <div style="margin-top: 10px;">
-    <div><%= f.label :quantity %><div>
-    <%= f.text_field :quantity %>
-  </div>
-  
-  <div style="margin-top: 14px;">
-    <%= f.submit "Create" %>
-  </div>
-<% end %>
+  <%= form_for(@product, url: {action: :create}) do |f| %>
+    <div class="form-group col-md-6 offset-md-3">
+      <label>Product Name</label>
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+    
+    <div class="form-group col-md-6 offset-md-3">
+      <label>Price</label>
+      <%= f.text_field :price, class: "form-control" %>
+    </div>
+    
+    <div class="form-group col-md-6 offset-md-3">
+      <label>Quantity</label>
+      <%= f.text_field :quantity, class: "form-control" %>
+    </div>
 
+    <%= f.submit "Create", class: "btn btn-primary" %>
+    <%= link_to "Cancel", store_products_path(@store), class: "btn btn-danger" %>
+  <% end %>
 </div>

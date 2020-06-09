@@ -1,22 +1,21 @@
 class ReviewsController < ApplicationController
-  before_action do
-    case action_name.to_sym
-    when :new, :create
-      @review = Review.new
-    end
-  end
-
   def new
-    @review.assign_attributes(review_params)
+    @review = Review.new
   end
 
   def create
     # TODO: Create the record in database
-    raise "TODO: Save to database: #{review_params}"
+    @review = Review.new(review_params)
+
+    if @review.save
+      redirect_to request.referrer
+    else
+      redirect_to request.referrer
+    end
   end
 
   private
     def review_params
-      params.require(:review).permit(:purchase_id)
+      params.require(:review).permit(:rating, :comment, :purchase_id, :product_id, :store_id)
     end
 end

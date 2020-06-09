@@ -1,0 +1,14 @@
+<div class="container text-center py-3">
+  <h1 class="pb-3">Add Store</h1>
+
+  <%= form_for @store do |f| %>
+    <div class="form-group col-md-6 offset-md-3">
+      <label for="exampleInputEmail1">Store Name</label>
+      <%= f.text_field :name, class: "form-control" %>
+      <small id="emailHelp" class="form-text text-muted">You can edit your name store.</small>
+    </div>
+
+    <%= f.submit "Save Name Store", class: "btn btn-primary" %>
+    <%= link_to "Cancel", stores_path, class: "btn btn-danger" %>
+  <% end %>
+</div>

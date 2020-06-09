@@ -1,35 +1,99 @@
-<div>
+<div class="container py-3">
+  <h1>Purchase #<%= @purchase.id %></h1>
 
-<h1>Purchase #<%= @purchase.id %></h1>
+  Quantity: <%= @purchase.quantity %>
+  <br />
+  Address: <%= @purchase.delivery_address %>
+  <br />
+  <%# TODO: Format the date time to make it more readable %>
+  Purchased at: <%= @purchase.created_at.strftime("%d %B %Y") %>
+  <br>
+  <br>
+  <%# TODO: Open purchases#edit page %>
+  <%= link_to 'Edit', edit_store_product_purchase_path(@store, @product, @purchase), class: "btn btn-info" %>
 
-Quantity: <%= @purchase.quantity %>
-<br />
-Address: <%= @purchase.delivery_address %>
-<br />
-<%# TODO: Format the date time to make it more readable %>
-Purchased at: <%= @purchase.created_at %>
+  <%# TODO: Make a DELETE request to purchases#destroy %>
+  <%= link_to 'Delete', store_product_purchase_path(@store, @product, @purchase), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-danger" %>
+  <%= link_to "Back", store_product_path(@store, @product), class: "btn btn-warning"%>
 
-<br />
-<br />
+  <br>
+  <br>
 
-<%# TODO: Open purchases#edit page %>
-<%= link_to 'Edit', '' %>
+  <h2>Review</h2>
 
-&nbsp;&nbsp;
+  <% if @purchase.review_exist? %>
+    <%# TODO: Display the review here %>
+    <div class="pl-2">
+      <div class="star-review mb-1">
+        <script>
+          $('.star-review').raty({ readOnly: true, score: <%= @purchase.review.rating %> });
+        </script>
+      </div>
+      <p class="mb-0">
+        <%= @purchase.review.comment %>
+      </p>
+    </div>
+  <% else %>
+    <!-- Review trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+      Give a Review
+    </button>
 
-<%# TODO: Make a DELETE request to purchases#destroy %>
-<%= link_to 'Delete', '' %>
-
+    <!-- Modal Review -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <%= form_for(Review.new, url: reviews_path, method: :post, remote: true) do |f| %>
+            <div>
+              <div class="modal-body">
+                <%= f.hidden_field :purchase_id, value: @purchase.id %>
+                <%= f.hidden_field :product_id, value: @product.id %>
+                <%= f.hidden_field :store_id, value: @store.id %>
+                <div class="star-review">
+                  <div id="star-log" class="stars"> </div>
+                  <%= f.hidden_field :rating, :id=>'hint-log' %>
+                </div>
+                <div class="form-group">
+                  <%= f.text_area :comment, class: 'form-control mt-3', rows: 4 %>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <%= f.submit "Save review", class: 'btn btn-primary' %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>
 
-<br />
+<script>
+  $('#star-log').raty({
+    target     : '#hint-log',
+    targetType : 'score',
+    targetKeep : true
+  });
 
-<h2>Review</h2>
+  $(document).on("click", ".stars", function(){
+    var score = 0 ;
 
-<% if @purchase.review_exist? %>
-  <%# TODO: Display the review here %>
-<% else %>
-  <%= link_to 'Give a Review', new_review_url(review: { purchase_id: @purchase.id }) %>
-<% end %>
-
-</div>
+    //loop through stars to get score
+    $('.stars').each(function(i, obj) {
+      //if score is there will be undefined if star not selected
+      if ($(obj).raty('score'))
+        score +=  $(obj).raty('score');
+    });
+  //calculating average
+  score = score / $(".stars").length;
+  $('#star-overall').raty({score:  score });
+  $("#hint-overall").val(score.toFixed(2));
+  });
+</script>

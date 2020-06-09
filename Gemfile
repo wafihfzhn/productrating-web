@@ -70,6 +70,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 ### Custom
 
 gem 'pg', '>= 0.18', '< 2.0'
+gem 'bootstrap', '~> 4.5.0'
+gem 'jquery-rails', '~> 4.4'
+gem 'jquery-raty-rails', github: 'bmc/jquery-raty-rails'
 
 ###
 

@@ -5,3 +5,14 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+puts "Truncating"
+ActiveRecord::Base.connection.execute("
+  TRUNCATE stores RESTART IDENTITY CASCADE;
+")
+
+20.times do
+  Store.create(
+    name: Faker::Team.name,
+  )
+end

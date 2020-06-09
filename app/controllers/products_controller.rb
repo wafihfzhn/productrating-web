@@ -1,5 +1,7 @@
 class ProductsController < ApplicationController
   before_action do
+    @store = Store.find(params[:store_id])
+
     case action_name.to_sym
     when :new, :create
       @product = Product.new
@@ -13,8 +15,10 @@ class ProductsController < ApplicationController
 
   def create
     @product.assign_attributes(product_params)
+    @product.store = @store
+
     if @product.save
-      redirect_to products_url
+      redirect_to store_products_path(@store)
     else
       flash[:error] = @product.errors.full_messages.join(', ')
       render :new
@@ -25,7 +29,7 @@ class ProductsController < ApplicationController
   end
 
   def index
-    @products = Product.all
+    @store = Store.find(params[:store_id])
   end
 
   private
